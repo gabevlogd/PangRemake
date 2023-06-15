@@ -23,7 +23,7 @@ public class WalkRightState : State<PlayerState>
     public override void OnUpdate()
     {
         base.OnUpdate();
-        m_playerStatesManager.PlayerTransform.Translate(Vector3.right * 4f * Time.deltaTime);
+        if (!Physics.Raycast(m_playerStatesManager.PlayerTransform.position, Vector3.right, 1f)) m_playerStatesManager.PlayerTransform.Translate(Vector3.right * 4f * Time.deltaTime);
 
     }
 

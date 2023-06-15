@@ -6,8 +6,13 @@ using Gabevlogd.Patterns;
 [RequireComponent(typeof(Rigidbody))]
 public class Ball : MonoBehaviour
 {
+    public Ball BallPrefab;
+    public enum BallSize { S, M, L, XL };
+    public BallSize Size;
+
+    public float StartLaterlaVeclocity = 0;
+
     private Rigidbody m_rigidbody;
-    private SphereCollider m_sphereCollider;
 
     private Vector3 m_velocity;
 
@@ -16,17 +21,20 @@ public class Ball : MonoBehaviour
     private float m_maxHeight;
     private float m_startingVy;
 
-    private bool m_firstFall;
+    private bool m_firstFall = true;
+    
 
     private void Awake()
     {
         m_rigidbody = GetComponent<Rigidbody>();
-        m_sphereCollider = GetComponent<SphereCollider>();
-        m_firstFall = true;
+        if (StartLaterlaVeclocity == 0) StartLaterlaVeclocity = 2f;
+    }
 
-        m_maxHeight = m_sphereCollider.radius * 15f;
-        
-        m_velocity = new Vector3(2f, 0f, 0f);
+    private void Start()
+    {
+        transform.localScale = GetBallSize();
+        m_maxHeight = transform.localScale.y * 0.5f * 15f;
+        m_velocity = new Vector3(StartLaterlaVeclocity, 0f, 0f);
     }
 
 
@@ -48,8 +56,6 @@ public class Ball : MonoBehaviour
         }
         //Need to improve this part (more specific conditions needed)
         if (Mathf.Abs(collision.GetContact(0).normal.x) > 0.5f) m_velocity.x *= -1f;
-
-        //Debug.Log(collision.GetContact(0).normal);
     }
 
     private void Update()
@@ -60,6 +66,9 @@ public class Ball : MonoBehaviour
         else CalculateVerticalVelocity(m_startingVy);
 
         SetVelocity();
+
+        //test
+        if (Input.GetKey(KeyCode.T)) m_time = 0;
     }
 
     /// <summary>
@@ -69,4 +78,46 @@ public class Ball : MonoBehaviour
     private void CalculateVerticalVelocity(float startingVy) => m_velocity.y = startingVy - m_gravity * m_time;
 
     private void SetVelocity() => m_rigidbody.velocity = m_velocity;
+
+    /// <summary>
+    /// Returns the ball size based on enum Size's value
+    /// </summary>
+    private Vector3 GetBallSize()
+    {
+        switch (Size)
+        {
+            case BallSize.XL:
+                return new Vector3(1f,1f,1f);
+            case BallSize.L:
+                return new Vector3(0.8f, 0.8f, 0.8f);
+            case BallSize.M:
+                return new Vector3(0.6f, 0.6f, 0.6f);
+            case BallSize.S:
+                return new Vector3(0.4f, 0.4f, 0.4f);
+            default:
+                Debug.Log("Ball size error");
+                return Vector3.zero;
+        }
+    }
+
+    /// <summary>
+    /// Spawns two new smaller balls in opposite directions
+    /// </summary>
+    public void SpwanNewBalls()
+    {
+        if (Size == BallSize.S) return;
+
+        Ball ballOne = Instantiate(BallPrefab, transform.position, Quaternion.identity);
+        Ball ballTwo = Instantiate(BallPrefab, transform.position, Quaternion.identity);
+
+        ballOne.StartLaterlaVeclocity = 2f;
+        ballTwo.StartLaterlaVeclocity = -2f;
+
+        ballOne.Size = (BallSize)((int)this.Size - 1);
+        ballTwo.Size = (BallSize)((int)this.Size - 1);
+
+        //Debug.Log(ballOne.StartLaterlaVeclocity);
+        //Debug.Log(ballTwo.StartLaterlaVeclocity);
+    }
+
 }

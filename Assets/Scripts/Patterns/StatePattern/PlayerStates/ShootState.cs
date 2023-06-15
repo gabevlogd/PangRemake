@@ -6,7 +6,7 @@ using Gabevlogd.Patterns;
 public class ShootState : State<PlayerState>
 {
     private PlayerStatesManager m_playerStatesManager;
-    private Animator m_animator;
+    private BasicWeapon m_weapon;
 
     public ShootState(PlayerState stateID, StatesManager<PlayerState> stateManager = null) : base(stateID, stateManager)
     {
@@ -16,21 +16,8 @@ public class ShootState : State<PlayerState>
     public override void OnEnter()
     {
         base.OnEnter();
-        if (m_animator == null) m_animator = m_playerStatesManager.PlayerTransform.GetComponentInChildren<Animator>();
-        //m_animator.SetBool("IsShooting", true);
-    }
+        if (m_weapon == null) m_weapon = m_playerStatesManager.PlayerTransform.GetComponentInChildren<BasicWeapon>();
 
-    public override void OnUpdate()
-    {
-        base.OnUpdate();
-
-    }
-
-    public override void OnExit()
-    {
-        base.OnExit();
-        //m_animator.SetBool("IsShooting", false);
-        m_animator.transform.localPosition = Vector3.zero;
-        m_animator.transform.localRotation = Quaternion.identity;
+        m_weapon.Shoot();
     }
 }
