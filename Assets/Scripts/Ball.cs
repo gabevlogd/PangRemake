@@ -7,8 +7,15 @@ using Gabevlogd.Patterns;
 public class Ball : MonoBehaviour
 {
     public Ball BallPrefab;
+    public PickUpBase[] PickUpPrefabs;
+
     public enum BallSize { S, M, L, XL };
     public BallSize Size;
+
+    public int Damage;
+    public int DefaultPoint;
+    [Range(0f, 1f)]
+    public float PickUpDropRate;
 
     public float StartLaterlaVeclocity = 0;
 
@@ -67,8 +74,6 @@ public class Ball : MonoBehaviour
 
         SetVelocity();
 
-        //test
-        if (Input.GetKey(KeyCode.T)) m_time = 0;
     }
 
     /// <summary>
@@ -105,6 +110,7 @@ public class Ball : MonoBehaviour
     /// </summary>
     public void SpwanNewBalls()
     {
+        if (Random.value < PickUpDropRate) SpawnRandomPickUp();
         if (Size == BallSize.S) return;
 
         Ball ballOne = Instantiate(BallPrefab, transform.position, Quaternion.identity);
@@ -118,6 +124,24 @@ public class Ball : MonoBehaviour
 
         //Debug.Log(ballOne.StartLaterlaVeclocity);
         //Debug.Log(ballTwo.StartLaterlaVeclocity);
+    }
+
+    private void SpawnRandomPickUp()
+    {
+        int index = Random.Range(0, PickUpPrefabs.Length);
+        Instantiate(PickUpPrefabs[index], transform.position - Vector3.down, Quaternion.identity);
+    }
+
+    public int GetPoint()
+    {
+        return Size switch
+        {
+            BallSize.S => DefaultPoint,
+            BallSize.M => DefaultPoint * 2,
+            BallSize.L => DefaultPoint * 3,
+            BallSize.XL => DefaultPoint * 4,
+            _ => 0,
+        };
     }
 
 }

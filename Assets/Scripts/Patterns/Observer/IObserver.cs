@@ -5,7 +5,7 @@ namespace Gabevlogd.Patterns
     /// </summary>
     public interface IObserver
     {
-        public abstract void UpdateObserver(string message = null);
+        public abstract void UpdateObserver(string message = null, int value = -1);
     }
 }
 

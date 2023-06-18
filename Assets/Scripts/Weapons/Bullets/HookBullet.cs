@@ -21,8 +21,7 @@ public class HookBullet : BasicBullet
     {
         if (collision.gameObject.TryGetComponent(out Ball ball))
         {
-            ball.SpwanNewBalls();
-            Destroy(ball.gameObject);
+            DestroyDetectedBall(ball);
             Destroy(this.gameObject);
         }
         else m_rigidbody.velocity = Vector3.zero;
@@ -55,12 +54,18 @@ public class HookBullet : BasicBullet
         {
             if (raycastHit.collider.TryGetComponent(out Ball ball))
             {
-                ball.SpwanNewBalls();
-                Destroy(ball.gameObject);
+                DestroyDetectedBall(ball);
             }
         }
 
         Destroy(this.gameObject);
+    }
+
+    private void DestroyDetectedBall(Ball ball)
+    {
+        ball.SpwanNewBalls();
+        LevelManager.Instance.Player.Stats.SetScore(ball.GetPoint());
+        Destroy(ball.gameObject);
     }
 
     /// <summary>
@@ -88,7 +93,6 @@ public class HookBullet : BasicBullet
         {
             m_lineRenderer.SetPosition(i, transform.position - new Vector3(0f, 0.5f + i, 0f));
         }
-
     }
 
     /// <summary>

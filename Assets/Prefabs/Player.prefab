@@ -1513,6 +1513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Weapon: {fileID: 7753288306172323276}
+  DefaultLifePoint: 5
 --- !u!1 &6623854605169971018
 GameObject:
   m_ObjectHideFlags: 0

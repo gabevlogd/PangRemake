@@ -45,22 +45,22 @@ namespace Gabevlogd.Patterns
         /// Sends a trigger notification to observers with the corresponding key
         /// </summary>
         /// <param name="key">key of the observers to be notified</param>
-        public virtual void NotifyObservers(TDictionaryKeyType key, string message = null)
+        public virtual void NotifyObservers(TDictionaryKeyType key, string message, int value)
         {
             foreach (IObserver observer in m_observers[key])
-                observer.UpdateObserver(message);
+                observer.UpdateObserver(message, value);
         }
 
         /// <summary>
         /// Sends a trigger notification to all observers
         /// </summary>
-        public virtual void NotifyObservers(string message = null)
+        public virtual void NotifyObservers(string message = null, int value = -1)
         {
             foreach(KeyValuePair<TDictionaryKeyType, List<IObserver>> keyValuePair in m_observers)
             {
                 foreach(IObserver observer in keyValuePair.Value)
                 {
-                    observer.UpdateObserver(message);
+                    observer.UpdateObserver(message, value);
                 }
             }
         }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class BaseStats
 {
-    public int LifePoint;
+    protected int m_lifePoint;
 
     public BaseStats(int lifePoint)
     {
-        LifePoint = lifePoint;
+        m_lifePoint = lifePoint;
     }
 }
