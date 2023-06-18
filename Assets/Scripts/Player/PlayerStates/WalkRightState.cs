@@ -7,6 +7,7 @@ public class WalkRightState : State<PlayerState>
 {
     private PlayerStatesManager m_playerStatesManager;
     private Animator m_animator;
+    private float m_walkSpeed = 4f;
 
     public WalkRightState(PlayerState stateID, StatesManager<PlayerState> stateManager = null) : base(stateID, stateManager)
     {
@@ -24,7 +25,7 @@ public class WalkRightState : State<PlayerState>
     {
         base.OnUpdate();
         int layerMask = 1 << 9;
-        if (!Physics.Raycast(m_playerStatesManager.PlayerTransform.position, Vector3.right, 1f, layerMask)) m_playerStatesManager.PlayerTransform.Translate(Vector3.right * 4f * Time.deltaTime);
+        if (!Physics.Raycast(m_playerStatesManager.PlayerTransform.position, Vector3.right, 1f, layerMask)) m_playerStatesManager.PlayerTransform.Translate(Vector3.right * m_walkSpeed * Time.deltaTime);
 
     }
 

@@ -39,10 +39,12 @@ public class HookBullet : BasicBullet
     /// </summary>
     private void RopeCollisionDetector()
     {
-        int layerMask = 1 << 8; //layerMask of the player to ignore 
-        RaycastHit[] raycastHits = Physics.RaycastAll(transform.position, Vector3.down, 20f, ~layerMask);
+        int layerMaskPlayer = 1 << 8; //layerMask of the player to ignore 
+        int layerMaskMap = 1 << 9; //layerMask of the map edge to ignore 
+        int layerMaskLadders = 1 << 10; //layerMask of the ladders to ignore 
+        RaycastHit[] raycastHits = Physics.RaycastAll(transform.position, Vector3.down, 20f, ~(layerMaskPlayer | layerMaskMap | layerMaskLadders));
         //Debug.Log(raycastHits.Length);
-        if (raycastHits.Length > 1) DestroyDetectedEntity(raycastHits);
+        if (raycastHits.Length > 0) DestroyDetectedEntity(raycastHits);
     }
 
     /// <summary>
@@ -66,6 +68,8 @@ public class HookBullet : BasicBullet
         ball.SpwanNewBalls();
         LevelManager.Instance.Player.Stats.SetScore(ball.GetPoint());
         Destroy(ball.gameObject);
+
+        LevelManager.CheckWinCondition();
     }
 
     /// <summary>

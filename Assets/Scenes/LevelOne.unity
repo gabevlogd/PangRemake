@@ -266,10 +266,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
-    - target: {fileID: 3343474953368853517, guid: 1b4b57f6ff6a27f498b71db5fac89be7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b4b57f6ff6a27f498b71db5fac89be7, type: 3}
 --- !u!1 &476488957
@@ -1256,6 +1252,7 @@ MonoBehaviour:
   Score: {fileID: 1793677059}
   Timer: {fileID: 1879838896}
   LifePoint: {fileID: 842345247}
+  ShieldBar: {fileID: 911522283}
 --- !u!1 &1535252185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1571,6 +1568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 60560596}
+  CurrentLevel: 1
 --- !u!4 &1825514021
 Transform:
   m_ObjectHideFlags: 0
@@ -1823,7 +1821,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6481676916834610102, guid: d6e3873b79e559e42895d2a6b6986af7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.393
       objectReference: {fileID: 0}
     - target: {fileID: 6481676916834610102, guid: d6e3873b79e559e42895d2a6b6986af7, type: 3}
       propertyPath: m_LocalPosition.y

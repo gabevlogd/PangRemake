@@ -7,4 +7,5 @@ public static class Constants
     public static string HUD = "HUD";
     public static string LIFE = "Life";
     public static string SCORE = "Score";
+    public static string SHIELD = "Shield";
 }

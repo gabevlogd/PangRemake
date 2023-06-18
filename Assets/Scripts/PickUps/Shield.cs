@@ -2,14 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : PickUpBase//add observer interface to start coroutine invulnerbaility
+public class Shield : PickUpBase
 {
+    public static readonly int Duration = 5;
 
-
-    protected override void PerformPickUpEffect(Player player)
-    {
-        StopAllCoroutines();
-
-        StartCoroutine(player.Invlunerability(2f));
-    }
+    protected override void PerformPickUpEffect(Player player) => player.Stats.TriggerShield = true;
+    
 }

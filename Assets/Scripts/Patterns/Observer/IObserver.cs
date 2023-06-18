@@ -5,6 +5,9 @@ namespace Gabevlogd.Patterns
     /// </summary>
     public interface IObserver
     {
+        /// <summary>
+        /// Called by the Observable when notify the observers
+        /// </summary>
         public abstract void UpdateObserver(string message = null, int value = -1);
     }
 }
