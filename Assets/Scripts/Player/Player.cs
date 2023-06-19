@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public int DefaultLifePoint;
 
     private PlayerStatesManager m_statesManager;
+    private Coroutine m_lastFreezeRoutine;
 
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         InitPlayerStats();
-        Debug.Log(PlayerPrefs.GetFloat(Constants.SCORE));
+        //Debug.Log(PlayerPrefs.GetFloat(Constants.SCORE));
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -53,6 +54,7 @@ public class Player : MonoBehaviour
         SetState();
         m_statesManager.CurrentState.OnUpdate();
         if (Stats.TriggerShield) PerformShieldEffect();
+        if (Stats.TriggerFreezer) PerformFreezerEffect();
     }
 
     /// <summary>
@@ -81,9 +83,17 @@ public class Player : MonoBehaviour
     private void PerformShieldEffect()
     {
         Stats.TriggerShield = false;
-        StopAllCoroutines();
+        //StopAllCoroutines();
         StartCoroutine(Invlunerability(Shield.Duration));
         PlayerStats.Observable.NotifyObservers(Constants.HUD, Constants.SHIELD, Shield.Duration);
+    }
+
+    private void PerformFreezerEffect()
+    {
+        Stats.TriggerFreezer = false;
+        if (m_lastFreezeRoutine != null) StopCoroutine(m_lastFreezeRoutine);
+        m_lastFreezeRoutine = StartCoroutine(FreezeBall(BallsFreezer.Duration));
+        PlayerStats.Observable.NotifyObservers(Constants.HUD, Constants.FREEZE, Shield.Duration);
     }
 
     /// <summary>
@@ -96,6 +106,14 @@ public class Player : MonoBehaviour
         GetComponent<Collider>().isTrigger = true;
         yield return new WaitForSeconds(duration);
         GetComponent<Collider>().isTrigger = false;
+    }
+
+    private IEnumerator FreezeBall(float duration)
+    {
+        Ball.FreezeTime = true;
+        yield return new WaitForSeconds(duration);
+        Ball.FreezeTime = false;
+        m_lastFreezeRoutine = null;
     }
 
 }

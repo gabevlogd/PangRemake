@@ -7,6 +7,7 @@ using Gabevlogd.Patterns;
 public class Ball : MonoBehaviour
 {
     public static Observable<string> Observable;
+    public static bool FreezeTime;
 
     public Ball BallPrefab;
     public PickUpBase[] PickUpPrefabs;
@@ -71,12 +72,22 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        m_time += Time.deltaTime;
+        //test 
+        if (Input.GetKey(KeyCode.F)) FreezeTime = true;
+        //else FreezeTime = false;
+        //
+
 
         if (m_firstFall) CalculateVerticalVelocity(0f);
         else CalculateVerticalVelocity(m_startingVy);
 
-        SetVelocity();
+
+        if (FreezeTime) SetVelocity(Vector3.zero);
+        else
+        {
+            m_time += Time.deltaTime;
+            SetVelocity(m_velocity);
+        }
 
     }
 
@@ -86,7 +97,7 @@ public class Ball : MonoBehaviour
     /// <param name="startingVy">y component of the velocity vector</param>
     private void CalculateVerticalVelocity(float startingVy) => m_velocity.y = startingVy - m_gravity * m_time;
 
-    private void SetVelocity() => m_rigidbody.velocity = m_velocity;
+    private void SetVelocity(Vector3 velocity) => m_rigidbody.velocity = velocity;
 
     /// <summary>
     /// Returns the ball size based on enum Size's value

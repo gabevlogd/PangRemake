@@ -8,9 +8,11 @@ public class HUDManager : MonoBehaviour, IObserver
     public Image Timer;
     public Image LifePoint;
     public Image ShieldBar;
+    public Image FreezeBar;
 
     private float m_timer = 100f;
     private float m_shieldTimer;
+    private float m_freezeTimer;
     private float m_maxLifePoint;
 
     private void Awake() => m_maxLifePoint = FindObjectOfType<Player>().DefaultLifePoint;
@@ -22,6 +24,7 @@ public class HUDManager : MonoBehaviour, IObserver
     {
         UpdateTimer();
         UpdateShieldTimer();
+        UpdateFreezeBar();
     }
 
     public void UpdateObserver(string message = null, int value = -1)
@@ -29,6 +32,7 @@ public class HUDManager : MonoBehaviour, IObserver
         if (message == Constants.LIFE) LifePoint.fillAmount = (float)value / m_maxLifePoint;
         else if (message == Constants.SCORE) Score.text = Constants.SCORE + ": " + value.ToString();
         else if (message == Constants.SHIELD) m_shieldTimer = value;
+        else if (message == Constants.FREEZE) m_freezeTimer = value;
 
     }
 
@@ -52,6 +56,15 @@ public class HUDManager : MonoBehaviour, IObserver
         {
             m_shieldTimer -= Time.deltaTime;
             ShieldBar.fillAmount = m_shieldTimer / Shield.Duration;
+        }
+    }
+
+    private void UpdateFreezeBar()
+    {
+        if (m_freezeTimer >= 0)
+        {
+            m_freezeTimer -= Time.deltaTime;
+            FreezeBar.fillAmount = m_freezeTimer / BallsFreezer.Duration;
         }
     }
 }

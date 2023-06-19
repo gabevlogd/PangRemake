@@ -7,6 +7,7 @@ public class PlayerStats : BaseStats
 {
     public static Observable<string> Observable;
     public bool TriggerShield;
+    public bool TriggerFreezer;
     public bool CanClimbUp;
     public bool CanClimbDown;
     private int m_score;

@@ -1,14 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Gabevlogd.Patterns;
 
 public abstract class PickUpBase : MonoBehaviour
 {
+    public static Observable<string> Observable;
+
     public int MaxLifespan;
     public int FallingSpeed;
 
     private float m_lifespan;
     private bool m_IsFalling = true;
+
+    protected virtual void Awake()
+    {
+        if (Observable == null) Observable = new Observable<string>();
+    }
 
     protected virtual void Update()
     {
