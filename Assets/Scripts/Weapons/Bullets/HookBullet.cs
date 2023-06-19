@@ -66,10 +66,10 @@ public class HookBullet : BasicBullet
     private void DestroyDetectedBall(Ball ball)
     {
         ball.SpwanNewBalls();
-        LevelManager.Instance.Player.Stats.SetScore(ball.GetPoint());
+        GameManager.Instance.Player.Stats.SetScore(ball.GetPoint());
         Destroy(ball.gameObject);
 
-        LevelManager.CheckWinCondition();
+        GameManager.CheckWinCondition();
     }
 
     /// <summary>

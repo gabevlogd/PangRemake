@@ -8,6 +8,7 @@ public class ClimbState : State<PlayerState>
     private PlayerStatesManager m_playerStatesManager;
     private Animator m_animator;
     private float m_climbSpeed = 3f;
+    private int m_direction;
 
     public ClimbState(PlayerState stateID, StatesManager<PlayerState> stateManager = null) : base(stateID, stateManager)
     {
@@ -19,14 +20,19 @@ public class ClimbState : State<PlayerState>
         base.OnEnter();
         if (m_animator == null) m_animator = m_playerStatesManager.PlayerTransform.GetComponentInChildren<Animator>();
         m_animator.SetBool("IsClimbing", true);
+
+        if (GameManager.Instance.Player.Stats.CanClimbDown) m_direction = -1;
+        else m_direction = 1;
     }
 
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (Input.GetKey(KeyCode.W)) m_playerStatesManager.PlayerTransform.Translate(Vector3.up * m_climbSpeed * Time.deltaTime);
-        else if (Input.GetKey(KeyCode.S)) m_playerStatesManager.PlayerTransform.Translate(Vector3.down * m_climbSpeed * Time.deltaTime);
+        //if (Input.GetKey(KeyCode.W)) m_playerStatesManager.PlayerTransform.Translate(Vector3.up * m_climbSpeed * Time.deltaTime);
+        //else if (Input.GetKey(KeyCode.S)) m_playerStatesManager.PlayerTransform.Translate(Vector3.down * m_climbSpeed * Time.deltaTime);
+        if ((m_direction == -1 && GameManager.Instance.Player.Stats.CanClimbDown) || (m_direction == 1 && GameManager.Instance.Player.Stats.CanClimbUp)) 
+            m_playerStatesManager.PlayerTransform.Translate(Vector3.up * m_climbSpeed * m_direction * Time.deltaTime);
     }
     public override void OnExit()
     {

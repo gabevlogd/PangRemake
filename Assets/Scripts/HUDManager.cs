@@ -41,8 +41,8 @@ public class HUDManager : MonoBehaviour, IObserver
         }
         else
         {
-            LevelManager.PlayerWin = false;
-            LevelManager.GameOver();
+            GameManager.PlayerWin = false;
+            GameManager.GameOver();
         }
     }
 

@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
             Stats.SetLifePoint(-ball.Damage);
             ball.SpwanNewBalls();
             Destroy(ball.gameObject);
-            LevelManager.CheckWinCondition();
+            GameManager.CheckWinCondition();
         }
     }
 
@@ -60,8 +60,8 @@ public class Player : MonoBehaviour
     /// </summary>
     private void SetState()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Weapon.CanShoot) m_statesManager.ChangeState(PlayerState.Shoot);
-        else if ((Input.GetKey(KeyCode.W) && Stats.CanClimbUp) || (Input.GetKey(KeyCode.S) && Stats.CanClimbDown)) m_statesManager.ChangeState(PlayerState.Climb);
+        if ((Input.GetKey(KeyCode.W) && Stats.CanClimbUp) || (Input.GetKey(KeyCode.S) && Stats.CanClimbDown) || (Stats.CanClimbUp && Stats.CanClimbDown)) m_statesManager.ChangeState(PlayerState.Climb);
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && Weapon.CanShoot) m_statesManager.ChangeState(PlayerState.Shoot);
         else if (Input.GetKey(KeyCode.A)) m_statesManager.ChangeState(PlayerState.WalkLeft);
         else if (Input.GetKey(KeyCode.D)) m_statesManager.ChangeState(PlayerState.WalkRight);
         else m_statesManager.ChangeState(PlayerState.Idle);
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
     private void InitPlayerStats()
     {
         Stats.SetLifePoint(DefaultLifePoint);
-        if (LevelManager.Instance.CurrentLevel == 1) Stats.SetScore(0);
+        if (GameManager.Instance.CurrentLevel == 1) Stats.SetScore(0);
         else Stats.SetScore((int)PlayerPrefs.GetFloat(Constants.SCORE));
     }
 

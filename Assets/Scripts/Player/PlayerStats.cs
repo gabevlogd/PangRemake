@@ -23,8 +23,8 @@ public class PlayerStats : BaseStats
         Observable.NotifyObservers(Constants.HUD, Constants.LIFE, m_lifePoint);
         if (m_lifePoint <= 0)
         {
-            LevelManager.PlayerWin = false;
-            LevelManager.GameOver();
+            GameManager.PlayerWin = false;
+            GameManager.GameOver();
         }
     }
 

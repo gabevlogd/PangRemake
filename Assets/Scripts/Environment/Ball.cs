@@ -6,6 +6,8 @@ using Gabevlogd.Patterns;
 [RequireComponent(typeof(Rigidbody))]
 public class Ball : MonoBehaviour
 {
+    public static Observable<string> Observable;
+
     public Ball BallPrefab;
     public PickUpBase[] PickUpPrefabs;
 
@@ -21,6 +23,7 @@ public class Ball : MonoBehaviour
 
     private Rigidbody m_rigidbody;
 
+
     private Vector3 m_velocity;
 
     private float m_gravity = 9.81f;
@@ -33,7 +36,8 @@ public class Ball : MonoBehaviour
 
     private void Awake()
     {
-        m_rigidbody = GetComponent<Rigidbody>();
+        if (m_rigidbody == null) m_rigidbody = GetComponent<Rigidbody>();
+        if (Observable == null) Observable = new Observable<string>();
         if (StartLaterlaVeclocity == 0) StartLaterlaVeclocity = 2f;
     }
 
@@ -110,6 +114,8 @@ public class Ball : MonoBehaviour
     /// </summary>
     public void SpwanNewBalls()
     {
+        Observable.NotifyObservers(Constants.AUDIO, Constants.BALL); //play pop sound
+
         if (Random.value < PickUpDropRate) SpawnRandomPickUp();
         if (Size == BallSize.S) return;
 

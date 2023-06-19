@@ -45,7 +45,7 @@ namespace Gabevlogd.Patterns
         /// Sends a trigger notification to observers with the corresponding key
         /// </summary>
         /// <param name="key">key of the observers to be notified</param>
-        public virtual void NotifyObservers(TDictionaryKeyType key, string message, int value)
+        public virtual void NotifyObservers(TDictionaryKeyType key, string message = null, int value = -1)
         {
             foreach (IObserver observer in m_observers[key])
                 observer.UpdateObserver(message, value);

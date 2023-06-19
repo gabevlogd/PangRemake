@@ -10,7 +10,7 @@ public class PlaceholderMenu : MonoBehaviour
 
     private void Awake()
     {
-        if (LevelManager.PlayerWin) WinMessage.SetActive(true);
+        if (GameManager.PlayerWin) WinMessage.SetActive(true);
         else LoseMessage.SetActive(true);
     }
 

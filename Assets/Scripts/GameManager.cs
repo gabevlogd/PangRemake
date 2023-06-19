@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Gabevlogd.Patterns;
 
-public class LevelManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static LevelManager Instance;
+    public static GameManager Instance = null;
     public static bool PlayerWin;
+
     public Player Player;
+    public Observable<string> Observable;
+
     public int CurrentLevel;
 
 
@@ -15,6 +19,13 @@ public class LevelManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        if (Observable == null) Observable = new Observable<string>();
+    }
+
+    private void Start()
+    {
+        Observable.NotifyObservers(Constants.AUDIO, Constants.MUSIC); // play soundTrack;
     }
 
     public static void LoadNextLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
