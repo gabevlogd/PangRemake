@@ -72,12 +72,6 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        //test 
-        if (Input.GetKey(KeyCode.F)) FreezeTime = true;
-        //else FreezeTime = false;
-        //
-
-
         if (m_firstFall) CalculateVerticalVelocity(0f);
         else CalculateVerticalVelocity(m_startingVy);
 

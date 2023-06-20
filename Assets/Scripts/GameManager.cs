@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
 
         if (Observable == null) Observable = new Observable<string>();
+
+        Ball.FreezeTime = false;
     }
 
     private void Start()
@@ -51,7 +53,10 @@ public class GameManager : MonoBehaviour
                 PlayerWin = true;
                 GameOver();
             }
-            else LoadNextLevel();
+            else
+            {
+                LoadNextLevel();
+            }
         }
     }
 }
